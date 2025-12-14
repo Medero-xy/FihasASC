@@ -1,0 +1,500 @@
+/* --- 1. FONTES --- */
+@font-face {
+    font-family: 'Jujutsu Kaisen';
+    src: url('../fonts/Jujutsu Kaisen.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Girassol';
+    src: url('../fonts/Girassol-Regular.ttf') format('truetype');
+}
+
+/* --- 2. GERAL --- */
+:root {
+    --cor-principal: #ffffff;
+    --cor-fundo: #0a0a0a;
+    --cor-painel: #141414;
+    --cor-destaque: #b91c1c; 
+    --cor-borda: #333;
+    --fonte-titulo: 'Jujutsu Kaisen', sans-serif;
+    --fonte-texto: 'Girassol', sans-serif;
+}
+
+body {
+    background-color: var(--cor-fundo);
+    color: var(--cor-principal);
+    font-family: var(--fonte-texto);
+    font-size: 1.1rem;
+    margin: 0;
+    padding: 20px;
+}
+
+/* REMOVER SETINHAS (CLEAN INPUT) */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { -moz-appearance: textfield; }
+
+h1, h2, h3, h4, .titulo-secao {
+    font-family: var(--fonte-titulo);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    border-bottom: 1px solid var(--cor-borda);
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+input, button, select, textarea { font-family: var(--fonte-texto); }
+
+/* --- 3. BARRA DE FERRAMENTAS --- */
+.toolbar {
+    position: fixed; top: 20px; left: 20px; z-index: 1000;
+    display: flex; gap: 10px;
+}
+.btn-tool {
+    background: #111; border: 1px solid var(--cor-destaque);
+    color: var(--cor-destaque); padding: 8px 15px;
+    border-radius: 4px; cursor: pointer; transition: 0.2s;
+}
+.btn-tool:hover { background: var(--cor-destaque); color: white; box-shadow: 0 0 10px var(--cor-destaque); }
+
+/* --- 4. SWITCH --- */
+.switch-container {
+    position: fixed; top: 20px; right: 20px; z-index: 1000;
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(0,0,0,0.8); padding: 10px 20px;
+    border-radius: 30px; border: 1px solid var(--cor-destaque);
+}
+.switch-label { font-family: var(--fonte-titulo); font-size: 0.9rem; color: var(--cor-destaque); }
+.switch { position: relative; display: inline-block; width: 50px; height: 24px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #333; transition: .4s; }
+.slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background-color: white; transition: .4s; }
+input:checked + .slider { background-color: var(--cor-destaque); }
+input:checked + .slider:before { transform: translateX(26px); }
+.slider.round { border-radius: 34px; } .slider.round:before { border-radius: 50%; }
+
+/* --- 5. LAYOUT --- */
+.container-ficha {
+    display: grid; grid-template-columns: 1fr; gap: 20px;
+    max-width: 1200px; margin: 0 auto;
+    margin-top: 60px;
+}
+@media (min-width: 768px) { .container-ficha { grid-template-columns: 1fr 1fr; } }
+
+/* CABEÇALHO (CORRIGIDO PARA PRETO) */
+.header-ficha {
+    background: var(--cor-painel); padding: 15px;
+    border: 1px solid var(--cor-borda); margin-top: 60px;
+    margin-bottom: 20px; border-radius: 8px; max-width: 1200px; margin-left: auto; margin-right: auto;
+}
+.header-row.top-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 10px; }
+.header-row.bottom-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 15px; }
+
+.input-group label { font-family: var(--fonte-titulo); font-size: 0.8rem; color: #888; display: block; margin-bottom: 3px; }
+
+/* FIX: Força o fundo preto nos inputs do cabeçalho */
+.input-group input, .input-group select {
+    background-color: #050505 !important; 
+    border: 1px solid #444; color: white;
+    padding: 5px 8px; width: 100%; box-sizing: border-box; height: 35px;
+}
+
+/* --- 6. PENTAGRAMA --- */
+.pentagrama-container {
+    position: relative; width: 100%; max-width: 500px;
+    aspect-ratio: 1 / 1; margin: 0 auto;
+    background-image: url('../img/attributes.png'); 
+    background-size: contain; background-repeat: no-repeat; background-position: center;
+}
+.atributo-btn {
+    position: absolute; width: 18%; height: 18%;
+    display: flex; align-items: center; justify-content: center; z-index: 10;
+}
+.atributo-btn input {
+    background: transparent; border: none; color: var(--cor-principal);
+    font-size: 1.5rem; width: 100%; text-align: center;
+    font-weight: bold; text-shadow: 0 0 5px #000;
+}
+/* Posições */
+.pos-agi { top: 10%; left: 42%; }
+.pos-int { top: 32%; right: 9%; }
+.pos-vig { bottom: 13%; right: 20%; }
+.pos-pre { bottom: 13%; left: 21%; }
+.pos-for { top: 32%; left: 10.5%; }
+
+/* Modo Jogo */
+.modo-jogo .atributo-btn input:disabled {
+    pointer-events: none; color: white; font-size: 2.2rem;
+    font-family: var(--fonte-titulo);
+    text-shadow: 0 0 10px var(--cor-destaque), 0 0 20px var(--cor-destaque);
+    border: none; background: transparent; width: 100%;
+    animation: pulsarNeon 2s infinite alternate;
+}
+.modo-jogo .atributo-btn { cursor: pointer; z-index: 20; }
+.modo-jogo .atributo-btn:hover { transform: scale(1.3); transition: 0.2s; filter: drop-shadow(0 0 5px var(--cor-destaque)); }
+@keyframes pulsarNeon {
+    from { text-shadow: 0 0 10px var(--cor-destaque); }
+    to { text-shadow: 0 0 20px var(--cor-destaque), 0 0 30px red; }
+}
+
+/* --- 7. STATUS E BARRAS VITAIS --- */
+.painel-status, .coluna-esquerda { padding: 10px; }
+.bar-group { margin-bottom: 15px; }
+.bar-header { display: flex; justify-content: space-between; margin-bottom: 5px; align-items: center; }
+
+.vital-row-content { display: flex; align-items: center; justify-content: flex-end; gap: 15px; flex-grow: 1; }
+.bar-values input { width: 40px; background: transparent; border: none; color: white; text-align: right; font-size: 1.1rem; font-weight: bold; }
+.vital-controls { display: flex; align-items: center; gap: 5px; }
+
+/* Botões Neon Limpos (Sem Fundo) */
+.btn-mini { background: none; border: none; font-weight: bold; font-size: 1.8rem; line-height: 0.8; cursor: pointer; padding: 0 5px; transition: transform 0.2s; outline: none; }
+.btn-mini:hover { transform: scale(1.3); }
+.btn-mini:active { transform: scale(0.9); }
+.btn-dano { color: #ff3333; text-shadow: 0 0 8px #ff0000; }
+.btn-cura { color: #33cc33; text-shadow: 0 0 8px #00ff00; }
+
+/* Input de linha invisível */
+.input-line { background: transparent; border: none; color: white; width: 35px; text-align: center; font-size: 1rem; padding: 2px; }
+.input-line:focus { outline: none; border-bottom: 1px solid #555; }
+
+/* Barras e Overheal */
+.progress-bg { width: 100%; height: 12px; background: #222; border: 1px solid #444; border-radius: 6px; overflow: hidden; position: relative; }
+.progress-fill { height: 100%; width: 50%; transition: width 0.3s; position: absolute; top:0; left:0; z-index: 1; }
+.progress-temp { height: 100%; width: 0%; background: linear-gradient(90deg, #ffa909, #ffee00); position: absolute; top: 0; left: 0; z-index: 2; opacity: 0.9; pointer-events: none; transition: width 0.3s; box-shadow: 0 0 10px #ffd700; }
+
+.red { background: linear-gradient(90deg, #800000, #ff0000); }
+.blue { background: linear-gradient(90deg, #0476c2, #00dffd); }
+.purple { background: linear-gradient(90deg, #7800af, #af33e9); }
+
+/* --- 8. PERÍCIAS, TEXTOS E INVENTÁRIO --- */
+.box-pericias { margin-top: 30px; }
+.lista-pericias { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.pericia-item { display: flex; align-items: center; background: #111; padding: 5px; border-radius: 4px; font-size: 0.9rem; }
+.pericia-check { width: 15px; height: 15px; accent-color: var(--cor-destaque); margin-right: 8px; cursor: pointer; }
+.pericia-btn { background: none; border: none; color: #ccc; cursor: pointer; text-align: left; flex: 1; font-family: var(--fonte-texto); }
+.pericia-btn:hover { color: white; text-shadow: 0 0 5px white; }
+.coluna-esquerda { display: flex; flex-direction: column; gap: 20px; }
+
+/* TEXTOS EM GRID 2x2 */
+.box-textos { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 768px) { .box-textos { grid-template-columns: 1fr; } }
+
+.area-texto-custom { width: 100%; min-height: 120px; background: #050505; border: 1px solid #444; border-radius: 4px; color: #ddd; font-family: var(--fonte-texto); font-size: 1rem; padding: 10px; box-sizing: border-box; resize: vertical; }
+.area-texto-custom:focus { outline: none; border-color: var(--cor-destaque); }
+
+/* Combate */
+.combat-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+.stat-box { background: #111; border: 1px solid #333; padding: 10px; text-align: center; border-radius: 6px; }
+.stat-label { font-size: 0.8rem; color: #888; display: block; font-family: var(--fonte-titulo); }
+.stat-value { font-size: 1.5rem; color: white; font-weight: bold; }
+.modo-jogo .interactive-stat { cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
+.modo-jogo .interactive-stat:hover { border-color: var(--cor-destaque); background-color: #1a0505; transform: scale(1.05); }
+.modo-jogo .interactive-stat .stat-value { color: var(--cor-destaque); text-shadow: 0 0 5px var(--cor-destaque); }
+
+/* Portas da Morte */
+.death-door-container { background: #1a0505; border: 1px solid #500; padding: 10px; border-radius: 8px; margin-bottom: 15px; display: none; }
+.death-door-container.active { display: block; animation: surgir 0.5s; }
+.death-title { text-align: center; color: #ff3333; font-family: var(--fonte-titulo); margin-bottom: 5px; letter-spacing: 2px; }
+.death-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 0.9rem; color: #aaa; }
+.death-check { appearance: none; width: 20px; height: 20px; border: 2px solid #555; border-radius: 50%; cursor: pointer; position: relative; margin-left: 5px; }
+.check-success:checked { background: #33cc33; border-color: #33cc33; box-shadow: 0 0 8px #33cc33; }
+.check-fail:checked { background: #ff3333; border-color: #ff3333; box-shadow: 0 0 8px #ff3333; }
+
+/* Status Grid e Inventário */
+.status-row-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #111; padding: 10px; margin-bottom: 10px; border-radius: 4px; }
+.valor-destaque { font-size: 1.5rem; color: var(--cor-destaque); font-family: var(--fonte-titulo); }
+.config-defesa { display: flex; flex-direction: column; gap: 5px; }
+
+.attacks-box { margin-top: 20px; border-top: 1px solid #333; padding-top: 10px; }
+.attack-card { background: #111; border-left: 3px solid #ccc; padding: 10px; margin-bottom: 8px; border-radius: 4px; position: relative; }
+.attack-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.attack-name { font-family: var(--fonte-titulo); font-size: 1.1rem; color: white; }
+.attack-desc { font-size: 0.9rem; color: #aaa; white-space: pre-wrap; }
+.btn-del-attack { color: #ff3333; background: none; border: none; cursor: pointer; position: absolute; top: 5px; right: 5px; }
+
+.inventario-box { margin-top: 20px; border-top: 1px solid #333; padding-top: 10px; }
+.lista-itens { list-style: none; padding: 0; margin: 15px 0; }
+.item-row { display: flex; justify-content: space-between; background: #222; margin-bottom: 5px; padding: 8px; border-radius: 4px; border-left: 2px solid var(--cor-destaque); }
+.btn-remove { color: var(--cor-destaque); background: none; border: none; cursor: pointer; font-weight: bold; margin-left: 10px; }
+.carga-bar-container { width: 100%; height: 10px; background: #333; border-radius: 5px; margin-top: 5px; overflow: hidden; }
+.carga-atual-fill { height: 100%; background: var(--cor-destaque); width: 0%; transition: width 0.3s ease; }
+
+.add-item-form { display: flex; gap: 5px; margin-top: 15px; }
+.input-nome { flex: 2; padding: 5px; background: #222; border: 1px solid #444; color: white; }
+.input-peso { width: 60px; padding: 5px; background: #222; border: 1px solid #444; color: white; }
+.btn-acao { background: var(--cor-destaque); color: white; border: none; padding: 0 15px; cursor: pointer; }
+
+/* Modal */
+.log-rolagem { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.95); border: 1px solid var(--cor-destaque); padding: 15px; min-width: 250px; border-radius: 8px; z-index: 100; box-shadow: 0 0 15px rgba(0,0,0,0.8); transition: opacity 0.3s; }
+.log-rolagem.hidden { display: none; }
+.log-rolagem h2 { color: var(--cor-destaque); margin: 5px 0 0 0; }
+
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); z-index: 2000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(2px); transition: opacity 0.3s; }
+.modal-overlay.hidden { display: none; }
+.modal-box { background-color: #050505; border: 2px solid var(--cor-destaque); border-radius: 12px; padding: 20px; width: 90%; max-width: 400px; text-align: center; position: relative; box-shadow: 0 0 20px rgba(185, 28, 28, 0.4); animation: surgir 0.3s ease-out; }
+@keyframes surgir { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.btn-fechar { position: absolute; top: 5px; right: 15px; color: var(--cor-destaque); font-size: 2rem; font-weight: bold; cursor: pointer; font-family: var(--fonte-texto); transition: 0.2s; }
+.btn-fechar:hover { color: white; text-shadow: 0 0 10px red; }
+#modal-titulo { color: white; font-size: 1.8rem; margin: 10px 0 5px 0; letter-spacing: 3px; }
+.linha-modal { border: 0; height: 1px; background: #333; margin: 10px 0 20px 0; }
+.modal-conteudo p { margin: 5px 0; font-size: 1.1rem; color: #ccc; }
+.valores-dados { font-family: var(--fonte-texto); color: #888 !important; font-size: 0.9rem !important; margin-bottom: 20px !important; }
+.modal-footer { margin-top: 10px; }
+.label-total { font-family: var(--fonte-titulo); font-size: 2rem; color: var(--cor-destaque); margin-right: 10px; vertical-align: middle; }
+.valor-total { font-family: var(--fonte-texto); font-size: 3.5rem; color: var(--cor-destaque); text-shadow: 2px 2px 0px #000, 0 0 15px var(--cor-destaque); vertical-align: middle; }
+
+.modal-morte h2 { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
+.modal-morte .valor-total { font-family: 'Jujutsu Kaisen'; font-size: 5rem; color: #ff0000; }
+
+/* --- CONTAINER PARA OS TEXTOS (LARGURA TOTAL) --- */
+.container-textos {
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+/* Áreas de Texto (Grid 2x2) */
+.box-textos { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 20px; 
+}
+
+/* Responsividade: Celular vira 1 coluna */
+@media (max-width: 768px) { 
+    .box-textos { grid-template-columns: 1fr; } 
+}
+
+.area-texto-custom {
+    width: 100%; min-height: 150px; /* Aumentei um pouco a altura padrão */
+    background: #050505; border: 1px solid #444; border-radius: 4px;
+    color: #ddd; font-family: var(--fonte-texto); font-size: 1rem;
+    padding: 10px; box-sizing: border-box; resize: vertical;
+}
+.area-texto-custom:focus { outline: none; border-color: var(--cor-destaque); }
+
+
+
+
+/* ================================================= */
+/* WIDGET DE DADOS (CSS NOVO) */
+/* ================================================= */
+
+/* Container Principal Flutuante */
+.dice-widget {
+    position: fixed;
+    bottom: 20px;
+    left: 20px; /* Posição inicial */
+    z-index: 1500;
+    transition: width 0.3s, height 0.3s;
+}
+
+/* --- ESTADO 1: ÍCONE --- */
+.dice-widget.minimized .dice-tray-content { display: none; }
+.dice-widget.minimized {
+    width: 60px; height: 60px;
+    background: #050505;
+    border: 2px solid var(--cor-destaque);
+    border-radius: 4px; /* Quadrado arredondado */
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(185, 28, 28, 0.3);
+    display: flex; align-items: center; justify-content: center;
+}
+.dice-widget.minimized:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--cor-destaque); }
+
+/* A Mágica do SVG Vermelho (Mask) */
+.dice-svg-mask {
+    width: 40px; height: 40px;
+    background-color: var(--cor-destaque); /* A cor que preenche */
+    -webkit-mask: url('../img/rpg.svg') no-repeat center;
+    mask: url('../img/rpg.svg') no-repeat center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+}
+
+/* Esconde o ícone quando expandido */
+.dice-widget:not(.minimized) .dice-icon-container { display: none; }
+
+/* --- ESTADO 2: BANDEJA EXPANDIDA --- */
+.dice-widget:not(.minimized) {
+    background: #0a0a0a;
+    border: 1px solid #444;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    display: flex; flex-direction: column;
+}
+
+.tray-header {
+    background: #111;
+    padding: 8px 10px;
+    border-bottom: 1px solid #333;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--fonte-titulo);
+    cursor: move; /* Cursor de movimento */
+    color: var(--cor-destaque);
+}
+
+.btn-close-tray {
+    background: none; border: none; color: #888;
+    font-size: 1.5rem; cursor: pointer; line-height: 0.8;
+}
+.btn-close-tray:hover { color: white; }
+
+.tray-controls {
+    display: flex; justify-content: space-around;
+    padding: 10px; border-bottom: 1px solid #222;
+}
+.tray-input-group { display: flex; flex-direction: column; align-items: center; }
+.tray-input-group label { font-size: 0.7rem; color: #666; margin-bottom: 5px; }
+
+/* Grid de Dados */
+.dice-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px; padding: 15px;
+}
+
+.dice-btn {
+    display: flex; flex-direction: column; align-items: center;
+    background: transparent; /* Fundo transparente para o PNG brilhar */
+    padding: 10px; border-radius: 6px;
+    cursor: pointer; border: 1px solid transparent;
+    transition: 0.3s;
+}
+
+.dice-btn:hover {
+    transform: translateY(-5px);
+}
+
+.dice-btn img {
+    width: 50px; height: 50px; 
+    object-fit: contain;
+    /* Cria uma sombra vermelha em volta da forma do dado */
+    filter: drop-shadow(0 0 2px var(--cor-destaque)); 
+    transition: 0.3s;
+}
+
+.dice-btn:hover img {
+    filter: drop-shadow(0 0 8px var(--cor-destaque)); /* Brilho aumenta */
+    transform: scale(1.1);
+}
+
+.dice-btn span {
+    font-family: var(--fonte-titulo); 
+    font-size: 1rem; margin-top: 5px; 
+    color: #888; transition: 0.3s;
+}
+
+.dice-btn:hover span {
+    color: var(--cor-destaque);
+    text-shadow: 0 0 5px var(--cor-destaque);
+}
+
+/* --- MODAL CINEMÁTICO (ANIMAÇÃO) --- */
+.modal-animacao-box {
+    position: relative;
+    width: 300px; height: 300px; /* Tamanho quadrado para o GIF */
+    background: #000;
+    border: 2px solid var(--cor-destaque);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 0 50px rgba(185, 28, 28, 0.6);
+}
+
+.gif-display {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+}
+
+.resultado-overlay {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+    text-shadow: 0 0 10px black;
+}
+
+.resultado-overlay.hidden { 
+    display: none !important; 
+    opacity: 0; 
+    transform: translate(-50%, -50%) scale(0); /* Reseta a animação de impacto */
+}
+
+/* Animação de Entrada do Número */
+.resultado-overlay:not(.hidden) {
+    animation: impactZoom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes impactZoom {
+    from { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+    to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+#valor-cinematico {
+    display: block;
+    font-family: var(--fonte-texto); /* Girassol */
+    font-size: 6rem;
+    color: var(--cor-destaque);
+    line-height: 0.9;
+    text-shadow: 0 0 20px var(--cor-destaque), 2px 2px 0 #000;
+}
+
+#detalhe-cinematico {
+    font-family: var(--fonte-titulo);
+    font-size: 1.2rem;
+    color: white;
+    text-transform: uppercase;
+}
+
+.btn-fechar-cine {
+    position: absolute; top: 10px; right: 10px;
+    background: none; border: none; color: #fff;
+    font-size: 2rem; cursor: pointer; z-index: 20;
+    opacity: 0.5;
+}
+.btn-fechar-cine:hover { opacity: 1; }
+
+
+/* --- CSS NOVO PARA PERÍCIAS --- */
+
+/* O Input do Bônus Global (ex: +2) */
+.input-treino-global {
+    background: transparent;
+    border: 1px solid #444;
+    color: var(--cor-destaque);
+    width: 40px;
+    text-align: center;
+    font-family: var(--fonte-texto);
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+/* O Input de Bônus Específico (ex: o +5 da Luta) */
+.skill-misc-input {
+    width: 30px;
+    background: #222;
+    border: 1px solid #555;
+    color: #fff;
+    text-align: center;
+    font-size: 0.8rem;
+    margin-left: 5px;
+    border-radius: 3px;
+}
+
+/* No Modo Jogo, o input específico some para ficar limpo */
+.modo-jogo .skill-misc-input {
+    display: none;
+}
+
+/* O Total (Texto colorido) */
+.skill-total {
+    font-weight: bold;
+    margin-left: 5px;
+    min-width: 25px;
+    text-align: right;
+}

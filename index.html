@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Ascensão RPG</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://kit.fontawesome.com/c642c07864.js" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/png" href="img/favicon.png">
+</head>
+<body>
+    <div class="container">
+        
+        <div class="content first-content">
+            <div class="first-column">
+                <h2 class="title title-primary">Bem-Vindo de Volta!</h2>
+                <p class="description description-primary">Para acessar suas fichas</p>
+                <p class="description description-primary">faça login com suas informações</p>
+                <button id="signin" class="btn btn-primary">Login</button>
+            </div>
+            
+            <div class="second-column">
+                <h2 class="title title-second">Criar Conta</h2>
+                <div class="social-media">
+                    <ul class="list-social-media">
+                        <li class="item-social-media"><i class="fa-brands fa-discord"></i></li>
+                        <li class="item-social-media"><i class="fa-brands fa-twitter"></i></li>
+                    </ul>
+                </div>
+                <p class="description description-second">Ou use seu email para registrar:</p>
+                
+                <form class="form" action="php/auth.php" method="POST">
+                    <input type="hidden" name="acao" value="registrar">
+
+                    <label class="label-input">
+                        <i class="fa-solid fa-user icon-modify"></i>
+                        <input type="text" name="nome" placeholder="Nome" required>
+                    </label>
+
+                    <label class="label-input">
+                        <i class="fa-solid fa-envelope icon-modify"></i>
+                        <input type="email" name="email" placeholder="Email" required>
+                    </label>
+
+                    <label class="label-input">
+                        <i class="fa-solid fa-lock icon-modify"></i>
+                        <input type="password" name="senha" placeholder="Senha" required>
+                    </label> 
+
+                    <button type="submit" class="btn btn-second">REGISTRAR</button>
+               </form> 
+            </div>
+        </div>
+
+        <div class="content second-content">
+            <div class="first-column">
+                <h2 class="title title-primary">Ola Jogador!</h2>
+                <p class="description description-primary">Ainda não tem ficha?</p>
+                <p class="description description-primary">Crie sua conta e comece a jornada</p>
+                <button id="signup" class="btn btn-primary">CRIAR CONTA</button>
+            </div>
+            
+            <div class="second-column">
+                <h2 class="title title-second">Login de Jogador</h2>
+                <div class="social-media">
+                    <ul class="list-social-media">
+                        <li class="item-social-media"><i class="fa-brands fa-discord"></i></li>
+                        <li class="item-social-media"><i class="fa-brands fa-twitter"></i></li>
+                    </ul>
+                </div>
+                <p class="description description-second">Use os dados da conta:</p>
+                
+                <form class="form" action="php/auth.php" method="POST">
+                    <input type="hidden" name="acao" value="login">
+
+                    <label class="label-input">
+                        <i class="fa-solid fa-envelope icon-modify"></i>
+                        <input type="email" name="email" placeholder="Email" required>
+                    </label>
+    
+                    <label class="label-input">
+                        <i class="fa-solid fa-lock icon-modify"></i>
+                        <input type="password" name="senha" placeholder="Senha" required>
+                    </label> 
+                    
+                    <a class="password" href="#">Esqueceu a senha?</a>
+    
+                    <button type="submit" class="btn btn-second">ENTRAR</button>
+               </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/app.js"></script>
+</body>
+</html>
