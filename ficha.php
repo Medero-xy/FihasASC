@@ -14,12 +14,20 @@ if (!isset($_GET['id'])) {
     exit;
 }
 
-$ficha_id = $_GET['id'];
+$ficha_id   = $_GET['id'];
 $usuario_id = $_SESSION['usuario_id'];
+$is_mestre  = isset($_SESSION['is_mestre']) ? (int)$_SESSION['is_mestre'] : 0;
 
-// Verifica se a ficha existe e pertence ao usuário (Segurança)
-$stmt = $pdo->prepare("SELECT id FROM fichas WHERE id = ? AND usuario_id = ?");
-$stmt->execute([$ficha_id, $usuario_id]);
+if ($is_mestre === 1) {
+    // Mestre pode abrir qualquer ficha que exista
+    $stmt = $pdo->prepare("SELECT id FROM fichas WHERE id = ?");
+    $stmt->execute([$ficha_id]);
+} else {
+    // Jogador comum só pode abrir fichas dele
+    $stmt = $pdo->prepare("SELECT id FROM fichas WHERE id = ? AND usuario_id = ?");
+    $stmt->execute([$ficha_id, $usuario_id]);
+}
+
 if (!$stmt->fetch()) {
     header("Location: dashboard.php"); // Ficha não existe ou não é sua
     exit;

@@ -46,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // LOGIN SUCESSO!
             $_SESSION['usuario_id'] = $usuario['id'];
             $_SESSION['usuario_nome'] = $usuario['nome'];
+             $_SESSION['is_mestre']   = isset($usuario['is_mestre']) ? (int)$usuario['is_mestre'] : 0;
             
             // Redireciona para o Dashboard (que criaremos depois)
             header("Location: ../dashboard.php");
@@ -54,5 +55,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "<script>alert('Email ou senha incorretos!'); window.location.href='../index.html';</script>";
         }
     }
+ 
+     // --- REDEFINIR SENHA ---
+     elseif ($acao === 'reset_senha') {
+         $email = $_POST['email'];
+         $novaSenha = $_POST['nova_senha'];
+         $confirmarSenha = $_POST['confirmar_senha'];
+ 
+         if ($novaSenha !== $confirmarSenha) {
+             echo "<script>alert('As senhas não conferem!'); window.location.href='../index.html';</script>";
+             exit;
+         }
+ 
+         // Verifica se o usuário existe
+         $stmt = $pdo->prepare("SELECT id FROM usuarios WHERE email = ?");
+         $stmt->execute([$email]);
+         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+ 
+         if (!$usuario) {
+             echo "<script>alert('Email não encontrado!'); window.location.href='../index.html';</script>";             exit;
+         }
+ 
+         // Atualiza a senha com hash
+        $hashSenha = password_hash($novaSenha, PASSWORD_DEFAULT);
+         $stmt = $pdo->prepare("UPDATE usuarios SET senha = ? WHERE email = ?");
+ 
+         if ($stmt->execute([$hashSenha, $email])) {
+             echo "<script>alert('Senha redefinida com sucesso! Faça login.'); window.location.href='../index.html';</script>";
+         } else {
+             echo "<script>alert('Erro ao redefinir a senha. Tente novamente.'); window.location.href='../index.html';</script>";         }
+     }
+
 }
 ?>

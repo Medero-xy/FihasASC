@@ -231,8 +231,16 @@ $fichas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
 
+
     <header class="dash-header">
         <div class="brand-text">ASCENSÃO</div>
+
+<?php if (!empty($_SESSION['is_mestre']) && $_SESSION['is_mestre'] == 1): ?>
+    <button class="btn btn-second" onclick="window.location.href='mestre.php'">
+        Área do Mestre
+    </button>
+<?php endif; ?>
+
         <div class="user-info">
             <span class="welcome-text">Feiticeiro(a): <?php echo htmlspecialchars($nome_usuario); ?></span>
             <a href="php/logout.php" class="btn-logout">SAIR</a>
@@ -241,6 +249,7 @@ $fichas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="dash-container">
         <h2 class="section-title">SEUS PERSONAGENS</h2>
+        
         
         <div class="grid-fichas">
             <form method="POST" style="display: contents;">
