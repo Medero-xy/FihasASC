@@ -49,6 +49,9 @@ if (!$stmt->fetch()) {
     <div class="toolbar">
         <button onclick="window.location.href='dashboard.php'" class="btn-tool" style="background:#444">⬅ VOLTAR</button>
         <button id="btn-salvar-cloud" onclick="salvarFichaCloud()" class="btn-tool">☁ SALVAR</button>
+        <button onclick="window.location.href='php/export_ficha.php?id=<?php echo $ficha_id; ?>'" class="btn-tool">
+             ⬇ BAIXAR BACKUP         
+        </button>
         <span id="msg-salvo" style="color:#0f0; margin-left:10px; opacity:0; transition:opacity 0.5s;">SALVO COM SUCESSO!</span>
     </div>
 
@@ -378,6 +381,24 @@ if (!$stmt->fetch()) {
             <button class="btn-fechar-cine" onclick="fecharModalCine()">×</button>
         </div>
     </div>
+
+
+
+    <script>
+document.addEventListener('keydown', function (event) {
+    // Ctrl+S ou Cmd+S (Mac)
+    const isCtrlS = (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's';
+    if (!isCtrlS) return;
+
+    event.preventDefault(); // impede o "salvar página" do navegador
+
+    const btn = document.getElementById('btn-salvar-cloud');
+    if (btn) {
+        btn.click(); // dispara o mesmo fluxo do botão
+    }
+});
+</script>
+
 
     <script src="js/script.js"></script>
 </body>

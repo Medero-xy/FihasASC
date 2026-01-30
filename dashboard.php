@@ -42,13 +42,13 @@ $fichas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         /* ESTILOS ESPECÍFICOS DO DASHBOARD (Que não estão no style.css global) */
 
         @font-face {
-            font-family: 'Jujutsu Kaisen';
-            src: url('../fonts/Jujutsu Kaisen.ttf') format('truetype');
-        }
+        font-family: 'jujutsu';
+        src: url('../fonts/Jujutsu Kaisen.ttf') format('truetype');
+    }
         @font-face {
-            font-family: 'Girassol';
-            src: url('../fonts/Girassol-Regular.ttf') format('truetype');
-        }
+        font-family: 'Girassol';
+        src: url('../fonts/Girassol-Regular.ttf') format('truetype');
+    }
         
         body {
             /* Garante alinhamento ao topo, diferente do login que é centrado */
@@ -111,7 +111,7 @@ $fichas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             padding: 8px 20px;
             text-decoration: none;
             border-radius: 4px;
-            font-family: var(--fonte-titulo);
+            font-family: Jujutsu;
             font-size: 0.9rem;
             transition: 0.3s;
         }
@@ -227,6 +227,27 @@ $fichas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             background: rgba(185, 28, 28, 0.05);
             box-shadow: 0 0 15px rgba(185, 28, 28, 0.1) inset;
         }
+
+
+        .btn-header {
+            background: var(--cor-destaque);
+            border: 1px solid var(--cor-borda);
+            color: #000;
+            padding: 8px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-family: Girassol;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .btn-header:hover { 
+            background: var(--cor-destaque); 
+            color: white; 
+            box-shadow: 0 0 15px var(--cor-destaque);
+            border-color: var(--cor-destaque);
+        }
+
+
     </style>
 </head>
 <body>
@@ -235,14 +256,21 @@ $fichas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <header class="dash-header">
         <div class="brand-text">ASCENSÃO</div>
 
-<?php if (!empty($_SESSION['is_mestre']) && $_SESSION['is_mestre'] == 1): ?>
-    <button class="btn btn-second" onclick="window.location.href='mestre.php'">
+
+
+        <div class="user-info">
+            <span class="welcome-text">Feiticeiro(a): <?php echo htmlspecialchars($nome_usuario); ?></span>
+
+            <?php if (!empty($_SESSION['is_mestre']) && $_SESSION['is_mestre'] == 1): ?>
+    <button class="btn-header" onclick="window.location.href='mestre.php'">
         Área do Mestre
     </button>
 <?php endif; ?>
 
-        <div class="user-info">
-            <span class="welcome-text">Feiticeiro(a): <?php echo htmlspecialchars($nome_usuario); ?></span>
+<button class="btn-header" type="button" onclick="abrirModalUploadFicha()">
+    Upload Ficha
+</button>
+
             <a href="php/logout.php" class="btn-logout">SAIR</a>
         </div>
     </header>
@@ -264,6 +292,61 @@ $fichas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php endforeach; ?>
         </div>
     </div>
+
+
+<!-- Modal de upload de ficha -->
+<div id="modal-upload-ficha" class="modal-reset" style="display:none;">
+    <div class="modal-reset-content">
+        <span class="modal-reset-close" id="upload-ficha-close">&times;</span>
+        <h2 class="title title-second">Importar ficha de backup</h2>
+        <p class="description description-second">
+            Selecione um arquivo JSON exportado do sistema. 
+            Você pode optar por sobrescrever uma ficha existente com o mesmo ID (se ela for sua)
+            ou criar uma ficha nova.
+        </p>
+
+        <form id="form-upload-ficha" action="php/import_ficha.php" method="POST" enctype="multipart/form-data" style="margin-top:10px;">
+            <label class="description description-second" style="display:block; margin-bottom:5px;">
+                Arquivo JSON da ficha:
+            </label>
+            <input type="file" name="arquivo_ficha" accept="application/json" required
+                   style="margin-bottom:10px;">
+
+            <label class="description description-second" style="font-size:12px; display:block; margin-bottom:10px;">
+                <input type="checkbox" name="sobrescrever" value="1">
+                Permitir sobrescrever ficha existente com o mesmo ID (se ela for sua).
+            </label>
+
+            <button type="submit" class="btn btn-second">
+                Importar
+            </button>
+        </form>
+    </div>
+</div>
+
+
+<script>
+function abrirModalUploadFicha() {
+    var modal = document.getElementById('modal-upload-ficha');
+    modal.style.display = 'block';
+}
+
+function fecharModalUploadFicha() {
+    var modal = document.getElementById('modal-upload-ficha');
+    modal.style.display = 'none';
+}
+
+// Botão X do modal
+document.getElementById('upload-ficha-close').addEventListener('click', fecharModalUploadFicha);
+
+// Fechar clicando fora do conteúdo
+window.addEventListener('click', function (event) {
+    var modal = document.getElementById('modal-upload-ficha');
+    if (event.target === modal) {
+        fecharModalUploadFicha();
+    }
+});
+</script>
 
 </body>
 </html>
